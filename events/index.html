@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>모임 — 경제 문맹 탈출 클럽</title>
+  <meta name="description" content="에디터 준이 주최하는 경제 독서 모임, 강연, 워크숍. 함께 읽고 이야기하는 오프라인 커뮤니티." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-main">경제문맹탈출<span>클럽</span></span>
+      <span class="logo-sub">경제 문맹 탈출 클럽</span>
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html" class="nav-link">홈</a>
+      <a href="../blog/index.html" class="nav-link">아티클</a>
+      <a href="index.html" class="nav-link active">모임</a>
+      <a href="../apps/index.html" class="nav-link">앱</a>
+      <a href="../about/index.html" class="nav-link">소개</a>
+      <a href="../newsletter/index.html" class="nav-link nav-cta" style="background:var(--gold);border-color:var(--gold);">레터 구독</a>
+    </nav>
+    <button class="hamburger" aria-label="메뉴" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="../index.html" class="nav-link">홈</a>
+  <a href="../blog/index.html" class="nav-link">아티클</a>
+  <a href="index.html" class="nav-link">모임</a>
+  <a href="../apps/index.html" class="nav-link">앱</a>
+  <a href="../about/index.html" class="nav-link">소개</a>
+  <a href="event-1.html" class="nav-link nav-cta" style="text-align:center;margin-top:8px;">모임 신청</a>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Community Events</p>
+    <h1>모임 & 이벤트</h1>
+    <p class="desc">책을 읽고, 강연을 듣고, 질문을 나눕니다. 경제를 함께 이해하는 오프라인 커뮤니티입니다.</p>
+  </div>
+</div>
+
+<!-- About the community -->
+<div style="background:var(--surface); border-bottom:1px solid var(--border); padding:24px 0;">
+  <div class="container">
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border-radius:var(--radius-lg); overflow:hidden;">
+      <div style="background:var(--surface); padding:20px; text-align:center;">
+        <div style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--accent);">18회</div>
+        <div style="font-size:0.8rem; color:var(--muted); margin-top:2px;">누적 모임</div>
+      </div>
+      <div style="background:var(--surface); padding:20px; text-align:center;">
+        <div style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--accent);">240+</div>
+        <div style="font-size:0.8rem; color:var(--muted); margin-top:2px;">누적 참여자</div>
+      </div>
+      <div style="background:var(--surface); padding:20px; text-align:center;">
+        <div style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--accent);">3종</div>
+        <div style="font-size:0.8rem; color:var(--muted); margin-top:2px;">모임 유형</div>
+      </div>
+      <div style="background:var(--surface); padding:20px; text-align:center;">
+        <div style="font-family:var(--serif); font-size:1.8rem; font-weight:700; color:var(--accent);">4.9★</div>
+        <div style="font-size:0.8rem; color:var(--muted); margin-top:2px;">평균 만족도</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="section">
+  <div class="container">
+
+    <!-- Filter -->
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">전체</button>
+      <button class="filter-btn" data-filter="club">독서 클럽</button>
+      <button class="filter-btn" data-filter="lecture">강연·특강</button>
+      <button class="filter-btn" data-filter="workshop">워크숍</button>
+    </div>
+
+    <!-- Upcoming Events -->
+    <h3 style="font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:20px;">예정된 모임</h3>
+
+    <div style="display:flex; flex-direction:column; gap:16px; margin-bottom:48px;" id="events-grid">
+
+      <a href="event-1.html" style="display:block;" data-category="club">
+        <div class="event-card">
+          <div class="event-date">
+            <span class="ev-month">Jun</span>
+            <span class="ev-day">14</span>
+            <span class="ev-year">2026</span>
+          </div>
+          <div class="event-info">
+            <div class="event-tags">
+              <span class="ev-tag tag-club">독서 모임</span>
+            </div>
+            <h3 class="event-title">경제 독서 클럽 #19 — 『넥스트 차이나』</h3>
+            <div class="event-metas">
+              <span class="ev-meta">🕒 오후 2:00 – 5:00</span>
+              <span class="ev-meta">📍 서울 마포구 합정 공유오피스</span>
+              <span class="ev-meta">👤 최대 12명</span>
+              <span class="ev-meta">💬 한국어</span>
+            </div>
+            <p class="event-desc">중국 경제 전문가 다이애나 추이의 『넥스트 차이나』를 함께 읽고 이야기 나눕니다. 미중 경제 디커플링이 한국 경제에 미치는 영향을 중심으로 토론할 예정입니다.</p>
+            <div class="event-footer">
+              <span class="spots">잔여 3 / 12석</span>
+              <span class="btn btn-sm btn-primary">신청하기</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="event-2.html" style="display:block;" data-category="lecture">
+        <div class="event-card">
+          <div class="event-date" style="background:var(--gold);">
+            <span class="ev-month">Jul</span>
+            <span class="ev-day">05</span>
+            <span class="ev-year">2026</span>
+          </div>
+          <div class="event-info">
+            <div class="event-tags">
+              <span class="ev-tag tag-lecture">특강</span>
+            </div>
+            <h3 class="event-title">에디터 준 초청 강연 — 2026 하반기 한국 경제 전망</h3>
+            <div class="event-metas">
+              <span class="ev-meta">🕒 오후 7:00 – 9:00</span>
+              <span class="ev-meta">📍 서울 강남구 소셜캠퍼스온</span>
+              <span class="ev-meta">👤 최대 40명</span>
+            </div>
+            <p class="event-desc">하반기 경기 흐름, 환율·금리 전망, 그리고 개인 자산 배분 전략까지. 에디터 준이 직접 2026년 하반기 한국 경제를 분석합니다. Q&A 세션 포함.</p>
+            <div class="event-footer">
+              <span class="spots">잔여 22 / 40석</span>
+              <span class="btn btn-sm btn-gold">신청하기</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <a href="event-3.html" style="display:block;" data-category="workshop">
+        <div class="event-card">
+          <div class="event-date" style="background:#5B21B6;">
+            <span class="ev-month">Aug</span>
+            <span class="ev-day">23</span>
+            <span class="ev-year">2026</span>
+          </div>
+          <div class="event-info">
+            <div class="event-tags">
+              <span class="ev-tag tag-workshop">워크숍</span>
+              <span class="ev-tag tag-online">온라인</span>
+            </div>
+            <h3 class="event-title">재무제표 읽기 워크숍 — 주식 투자자를 위한 기초 과정</h3>
+            <div class="event-metas">
+              <span class="ev-meta">🕒 오후 8:00 – 10:00</span>
+              <span class="ev-meta">💻 Zoom (링크 발송)</span>
+              <span class="ev-meta">👤 최대 30명</span>
+            </div>
+            <p class="event-desc">손익계산서, 대차대조표, 현금흐름표 — 셋만 알면 기업 분석의 절반은 끝납니다. 예시 기업 분석까지 실습해보는 온라인 워크숍입니다.</p>
+            <div class="event-footer">
+              <span class="spots">잔여 18 / 30석</span>
+              <span class="btn btn-sm btn-outline" style="border-color:#5B21B6;color:#5B21B6;">신청하기</span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Past Events -->
+    <hr class="divider" />
+    <h3 style="font-size:0.75rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); margin-bottom:20px;">지난 모임</h3>
+
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div class="event-card" style="opacity:0.6;">
+        <div class="event-date" style="background:#9CA3AF;">
+          <span class="ev-month">May</span>
+          <span class="ev-day">10</span>
+          <span class="ev-year">2026</span>
+        </div>
+        <div class="event-info">
+          <div class="event-tags"><span class="ev-tag tag-club">독서 모임</span></div>
+          <h3 class="event-title">경제 독서 클럽 #18 — 『21세기 자본』 재읽기</h3>
+          <div class="event-metas">
+            <span class="ev-meta">📍 서울 마포구 합정</span>
+            <span class="ev-meta">👤 11명 참여</span>
+          </div>
+          <div class="event-footer">
+            <span class="spots full">마감 완료</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="event-card" style="opacity:0.6;">
+        <div class="event-date" style="background:#9CA3AF;">
+          <span class="ev-month">Apr</span>
+          <span class="ev-day">12</span>
+          <span class="ev-year">2026</span>
+        </div>
+        <div class="event-info">
+          <div class="event-tags"><span class="ev-tag tag-workshop">워크숍</span></div>
+          <h3 class="event-title">ETF 포트폴리오 구성 워크숍</h3>
+          <div class="event-metas">
+            <span class="ev-meta">💻 온라인 (Zoom)</span>
+            <span class="ev-meta">👤 28명 참여</span>
+          </div>
+          <div class="event-footer">
+            <span class="spots full">마감 완료</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Community Values -->
+    <div style="margin-top:64px; background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:40px;">
+      <div style="text-align:center; margin-bottom:36px;">
+        <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;">Our Community</p>
+        <h2 style="font-size:1.6rem; margin-bottom:12px;">이런 모임입니다</h2>
+        <p style="color:var(--muted); max-width:480px; margin:0 auto;">소수가 깊게 대화하는 자리를 만듭니다. 강의보다는 토론, 결론보다는 질문을 중심으로.</p>
+      </div>
+      <div class="grid-3">
+        <div style="text-align:center; padding:24px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">📖</div>
+          <h4 style="margin-bottom:8px;">함께 읽기</h4>
+          <p style="font-size:0.875rem; color:var(--muted); line-height:1.7;">한 달에 한 권, 경제·사회 관련 책을 함께 읽고 서로의 해석을 나눕니다. 읽어오지 않아도 괜찮아요.</p>
+        </div>
+        <div style="text-align:center; padding:24px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">💬</div>
+          <h4 style="margin-bottom:8px;">질문 중심</h4>
+          <p style="font-size:0.875rem; color:var(--muted); line-height:1.7;">좋은 질문이 좋은 대화를 만듭니다. 정답을 찾기보다 더 좋은 질문을 던지는 공간입니다.</p>
+        </div>
+        <div style="text-align:center; padding:24px 16px;">
+          <div style="font-size:2.5rem; margin-bottom:12px;">🤝</div>
+          <h4 style="margin-bottom:8px;">소규모 운영</h4>
+          <p style="font-size:0.875rem; color:var(--muted); line-height:1.7;">독서 모임은 최대 12명, 워크숍은 최대 30명으로 제한합니다. 모두가 말할 수 있는 규모.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo"><span class="logo-main">탈출<span style="color:var(--gold);">클럽</span></span><span class="logo-sub" style="color:rgba(255,255,255,0.4);">경제 문맹 탈출 클럽</span></a>
+        <p class="footer-brand-desc">1인 경제 에디터의 독립 미디어 플랫폼.</p>
+        <div class="footer-socials"><a href="#" class="social-btn">𝕏</a><a href="#" class="social-btn">📸</a><a href="#" class="social-btn">▶</a><a href="#" class="social-btn">✍</a></div>
+      </div>
+      <div class="footer-col"><h4>콘텐츠</h4><div class="footer-links"><a href="../blog/index.html">전체 아티클</a><a href="#">거시경제</a><a href="#">투자·자산</a><a href="#">파이어족</a></div></div>
+      <div class="footer-col"><h4>커뮤니티</h4><div class="footer-links"><a href="index.html">다가오는 모임</a><a href="#">독서 클럽</a><a href="#">강연·특강</a><a href="#">워크숍</a></div></div>
+      <div class="footer-col"><h4>더보기</h4><div class="footer-links"><a href="../apps/index.html">금융 앱</a><a href="../about/index.html">에디터 소개</a><a href="../about/index.html#contact">문의하기</a></div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 경제 문맹 탈출 클럽. All rights reserved.</span><span>Made with ☕ and Claude Code</span></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+// Simple filter for events
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    document.querySelectorAll('#events-grid > a[data-category]').forEach(el => {
+      el.style.display = (filter === 'all' || el.dataset.category === filter) ? 'block' : 'none';
+    });
+  });
+});
+</script>
+</body>
+</html>

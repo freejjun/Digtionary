@@ -1,0 +1,17 @@
+# 로컬 개발/에디터 설정
+.claude/
+.vscode/
+
+# OS 생성 파일
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Python 캐시 (serve.py 관련)
+__pycache__/
+*.pyc
+
+# 임시 파일
+*.tmp
+*.log

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>금융 앱 — 경제 문맹 탈출 클럽</title>
+  <meta name="description" content="에디터 준이 직접 만든 금융 도구들. FIRE 계산기, 경제 용어 사전, 복리 계산기, 세후 소득 계산기." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .app-detail {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+    .app-detail-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 28px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+    .app-detail-icon {
+      width: 64px; height: 64px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .app-detail-body { padding: 32px; }
+    .app-preview {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-top: 24px;
+    }
+    .calc-row { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .calc-label { font-size: 0.8125rem; font-weight: 600; color: var(--muted); }
+    .calc-input {
+      padding: 10px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.9375rem;
+      background: var(--surface);
+      color: var(--text);
+      outline: none;
+      width: 100%;
+      font-family: var(--sans);
+    }
+    .calc-input:focus { border-color: var(--accent); }
+    .calc-result {
+      background: var(--accent);
+      color: white;
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      margin-top: 20px;
+    }
+    .calc-result-label { font-size: 0.75rem; opacity: 0.75; margin-bottom: 4px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .calc-result-value { font-family: var(--serif); font-size: 2rem; font-weight: 700; }
+    .calc-result-sub { font-size: 0.8125rem; opacity: 0.75; margin-top: 4px; }
+    .calc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .calc-grid { grid-template-columns: 1fr; } }
+    .dict-search-wrap { position: relative; }
+    .dict-search {
+      width: 100%; padding: 12px 44px 12px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 0.9375rem;
+      background: var(--surface);
+      outline: none;
+      font-family: var(--sans);
+    }
+    .dict-search:focus { border-color: var(--accent); }
+    .dict-search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+    .dict-list { margin-top: 16px; display: flex; flex-direction: column; gap: 1px; background: var(--border); border-radius: var(--radius); overflow: hidden; }
+    .dict-item { background: var(--surface); padding: 14px 16px; cursor: pointer; transition: background 0.15s; }
+    .dict-item:hover { background: var(--border-lt); }
+    .dict-term { font-weight: 700; margin-bottom: 4px; font-size: 0.9375rem; }
+    .dict-def { font-size: 0.8125rem; color: var(--muted); line-height: 1.6; }
+    .dict-hidden { display: none; }
+    .dict-tag { display: inline-block; padding: 2px 7px; background: var(--border-lt); color: var(--accent); font-size: 0.65rem; font-weight: 700; border-radius: 20px; margin-left: 8px; vertical-align: middle; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-main">경제문맹탈출<span>클럽</span></span>
+      <span class="logo-sub">경제 문맹 탈출 클럽</span>
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html" class="nav-link">홈</a>
+      <a href="../blog/index.html" class="nav-link">아티클</a>
+      <a href="../events/index.html" class="nav-link">모임</a>
+      <a href="index.html" class="nav-link active">앱</a>
+      <a href="../about/index.html" class="nav-link">소개</a>
+      <a href="../newsletter/index.html" class="nav-link nav-cta" style="background:var(--gold);border-color:var(--gold);">레터 구독</a>
+    </nav>
+    <button class="hamburger" aria-label="메뉴" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="../index.html" class="nav-link">홈</a>
+  <a href="../blog/index.html" class="nav-link">아티클</a>
+  <a href="../events/index.html" class="nav-link">모임</a>
+  <a href="index.html" class="nav-link">앱</a>
+  <a href="../about/index.html" class="nav-link">소개</a>
+</nav>
+
+<!-- Page Hero -->
+<div class="page-hero">
+  <div class="container">
+    <p class="eyebrow">Tools & Apps</p>
+    <h1>직접 만든 금융 앱</h1>
+    <p class="desc">경제 이야기를 쓰다 보니 계산기가 필요했습니다. Claude Code와 함께 직접 만들었습니다.</p>
+  </div>
+</div>
+
+<main class="section">
+  <div class="container">
+
+    <!-- App nav -->
+    <div class="filter-bar" style="margin-bottom:48px;">
+      <a href="#fire" class="filter-btn active">🔥 FIRE 계산기</a>
+      <a href="#dictionary" class="filter-btn">📖 경제 용어 사전</a>
+      <a href="#compound" class="filter-btn">📊 복리 계산기</a>
+      <a href="#income" class="filter-btn">💰 세후 소득 계산기</a>
+    </div>
+
+    <!-- FIRE Calculator -->
+    <div class="app-detail" id="fire">
+      <div class="app-detail-header">
+        <div class="app-detail-icon" style="background:linear-gradient(135deg,#7C3AED,#A78BFA);">🔥</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+            <h2 style="font-size:1.4rem; margin:0;">FIRE 계산기</h2>
+            <span class="app-status status-live">● 사용 가능</span>
+          </div>
+          <p style="color:var(--muted); font-size:0.9rem; margin:0;">4% 룰 기반 조기 은퇴 자산 계산기. 목표 금액과 달성 시점을 시뮬레이션합니다.</p>
+        </div>
+      </div>
+      <div class="app-detail-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;" class="app-layout-grid">
+          <div>
+            <h3 style="font-size:1rem; margin-bottom:16px;">4% 룰이란?</h3>
+            <p style="font-size:0.9rem; color:var(--muted); line-height:1.8; margin-bottom:16px;">
+              연간 생활비의 25배를 모으면, 그 자산의 4%씩 인출해도 30년 이상 자산이 고갈되지 않는다는 법칙입니다.
+              미국 트리니티 대학의 연구(1998)에서 유래했습니다.
+            </p>
+            <p style="font-size:0.9rem; color:var(--muted); line-height:1.8;">
+              한국의 경우 국민연금, 건강보험 구조가 다르므로 결과를 참고용으로만 활용하세요.
+            </p>
+          </div>
+          <div class="app-preview">
+            <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:16px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">계산해보기</h4>
+            <div class="calc-grid">
+              <div class="calc-row">
+                <label class="calc-label">월 생활비 (만원)</label>
+                <input type="number" class="calc-input" id="fire-monthly" value="300" min="0" />
+              </div>
+              <div class="calc-row">
+                <label class="calc-label">현재 자산 (만원)</label>
+                <input type="number" class="calc-input" id="fire-current" value="5000" min="0" />
+              </div>
+              <div class="calc-row">
+                <label class="calc-label">월 저축 (만원)</label>
+                <input type="number" class="calc-input" id="fire-save" value="150" min="0" />
+              </div>
+              <div class="calc-row">
+                <label class="calc-label">연 수익률 (%)</label>
+                <input type="number" class="calc-input" id="fire-rate" value="6" min="0" max="30" step="0.1" />
+              </div>
+            </div>
+            <button onclick="calcFire()" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px;">계산하기</button>
+            <div class="calc-result" id="fire-result" style="display:none;">
+              <div class="calc-result-label">FIRE 목표 자산</div>
+              <div class="calc-result-value" id="fire-target">-</div>
+              <div class="calc-result-sub" id="fire-years">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dictionary -->
+    <div class="app-detail" id="dictionary">
+      <div class="app-detail-header">
+        <div class="app-detail-icon" style="background:linear-gradient(135deg,#1B3F6E,#2A5DA8);">📖</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+            <h2 style="font-size:1.4rem; margin:0;">경제 용어 사전</h2>
+            <span class="app-status status-live">● 사용 가능</span>
+          </div>
+          <p style="color:var(--muted); font-size:0.9rem; margin:0;">핵심 경제·금융 용어를 에디터 준의 언어로 쉽게 풀어쓴 검색 사전.</p>
+        </div>
+      </div>
+      <div class="app-detail-body">
+        <div class="app-preview">
+          <div class="dict-search-wrap" style="margin-bottom:0;">
+            <input type="text" class="dict-search" id="dict-input" placeholder="용어를 검색하세요 (예: 피벗, 스태그플레이션)" oninput="searchDict()" />
+            <span class="dict-search-icon">🔍</span>
+          </div>
+          <div class="dict-list" id="dict-list" style="margin-top:12px; max-height:360px; overflow-y:auto;">
+            <!-- populated by JS -->
+          </div>
+          <p style="font-size:0.75rem; color:var(--muted); margin-top:10px; text-align:center;">현재 20개 용어 수록 · 계속 업데이트 중</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Compound Calculator -->
+    <div class="app-detail" id="compound">
+      <div class="app-detail-header">
+        <div class="app-detail-icon" style="background:linear-gradient(135deg,#065F46,#059669);">📊</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+            <h2 style="font-size:1.4rem; margin:0;">복리 계산기</h2>
+            <span class="app-status status-live">● 사용 가능</span>
+          </div>
+          <p style="color:var(--muted); font-size:0.9rem; margin:0;">원금, 수익률, 기간을 입력하면 복리 성장을 시각적으로 보여줍니다.</p>
+        </div>
+      </div>
+      <div class="app-detail-body">
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:40px;" class="app-layout-grid">
+          <div>
+            <h3 style="font-size:1rem; margin-bottom:16px;">복리의 마법</h3>
+            <p style="font-size:0.9rem; color:var(--muted); line-height:1.8; margin-bottom:12px;">
+              아인슈타인이 "인류의 8번째 불가사의"라 불렀다는 복리. 매년 이자가 원금에 더해져 다시 이자를 낳는 구조입니다.
+            </p>
+            <p style="font-size:0.9rem; color:var(--muted); line-height:1.8;">
+              단리와 복리의 차이는 처음에는 미미하지만, 시간이 길어질수록 기하급수적으로 벌어집니다.
+            </p>
+          </div>
+          <div class="app-preview">
+            <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:16px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">복리 계산</h4>
+            <div class="calc-grid">
+              <div class="calc-row">
+                <label class="calc-label">초기 투자금 (만원)</label>
+                <input type="number" class="calc-input" id="comp-principal" value="1000" min="0" />
+              </div>
+              <div class="calc-row">
+                <label class="calc-label">월 추가 투자 (만원)</label>
+                <input type="number" class="calc-input" id="comp-monthly" value="50" min="0" />
+              </div>
+              <div class="calc-row">
+                <label class="calc-label">연 수익률 (%)</label>
+                <input type="number" class="calc-input" id="comp-rate" value="7" step="0.1" />
+              </div>
+              <div class="calc-row">
+                <label class="calc-label">투자 기간 (년)</label>
+                <input type="number" class="calc-input" id="comp-years" value="20" min="1" max="50" />
+              </div>
+            </div>
+            <button onclick="calcCompound()" class="btn btn-primary" style="width:100%; justify-content:center; margin-top:8px;">계산하기</button>
+            <div class="calc-result" id="comp-result" style="display:none; background:var(--green);">
+              <div class="calc-result-label">최종 자산</div>
+              <div class="calc-result-value" id="comp-final">-</div>
+              <div class="calc-result-sub" id="comp-profit">-</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Income Calculator -->
+    <div class="app-detail" id="income">
+      <div class="app-detail-header">
+        <div class="app-detail-icon" style="background:linear-gradient(135deg,#92400E,#D97706);">💰</div>
+        <div style="flex:1;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:4px;">
+            <h2 style="font-size:1.4rem; margin:0;">세후 소득 계산기</h2>
+            <span class="app-status status-beta">◐ 베타</span>
+          </div>
+          <p style="color:var(--muted); font-size:0.9rem; margin:0;">연봉 입력 시 4대보험·소득세 공제 후 실수령액을 계산합니다. 2026년 세법 기준.</p>
+        </div>
+      </div>
+      <div class="app-detail-body">
+        <div class="app-preview">
+          <h4 style="font-size:0.9rem; font-weight:700; margin-bottom:16px; color:var(--muted); text-transform:uppercase; letter-spacing:0.1em;">실수령액 계산</h4>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:16px;" id="income-grid">
+            <div class="calc-row">
+              <label class="calc-label">연봉 (만원)</label>
+              <input type="number" class="calc-input" id="inc-annual" value="5000" min="0" step="100" />
+            </div>
+            <div class="calc-row">
+              <label class="calc-label">부양가족 수</label>
+              <input type="number" class="calc-input" id="inc-family" value="1" min="1" max="10" />
+            </div>
+            <div class="calc-row">
+              <label class="calc-label">20세 이하 자녀 수</label>
+              <input type="number" class="calc-input" id="inc-children" value="0" min="0" />
+            </div>
+          </div>
+          <button onclick="calcIncome()" class="btn btn-gold" style="width:100%; justify-content:center;">계산하기</button>
+          <div id="inc-result" style="display:none; margin-top:20px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); border-radius:var(--radius); overflow:hidden;">
+              <div style="background:var(--accent); color:white; padding:16px; text-align:center;">
+                <div style="font-size:0.7rem; opacity:0.75; margin-bottom:4px; letter-spacing:0.1em; text-transform:uppercase;">월 실수령액</div>
+                <div style="font-family:var(--serif); font-size:1.6rem; font-weight:700;" id="inc-monthly">-</div>
+              </div>
+              <div style="background:var(--surface); padding:16px; text-align:center;">
+                <div style="font-size:0.7rem; color:var(--muted); margin-bottom:4px; letter-spacing:0.1em; text-transform:uppercase;">연간 실수령액</div>
+                <div style="font-family:var(--serif); font-size:1.6rem; font-weight:700; color:var(--accent);" id="inc-yearly">-</div>
+              </div>
+            </div>
+            <div style="margin-top:12px; padding:14px; background:var(--bg); border-radius:var(--radius); font-size:0.8rem; color:var(--muted);" id="inc-breakdown"></div>
+            <p style="font-size:0.72rem; color:var(--text-light); margin-top:8px; line-height:1.5;">* 근사값입니다. 비과세 수당, 연말정산 등에 따라 실제와 차이가 있을 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coming Soon -->
+    <div style="text-align:center; padding:40px; background:var(--surface); border:1px dashed var(--border); border-radius:var(--radius-lg);">
+      <div style="font-size:2.5rem; margin-bottom:12px;">🛠</div>
+      <h3 style="margin-bottom:8px;">더 많은 앱이 준비 중입니다</h3>
+      <p style="color:var(--muted); font-size:0.9rem; max-width:400px; margin:0 auto 20px;">환율 계산기, 주택담보대출 시뮬레이터, 인플레이션 조정 계산기 등이 개발 중입니다.</p>
+      <a href="#" class="btn btn-outline" onclick="alert('알림 신청이 완료되었습니다! 🎉'); return false;">출시 알림 신청</a>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo"><span class="logo-main">탈출<span style="color:var(--gold);">클럽</span></span><span class="logo-sub" style="color:rgba(255,255,255,0.4);">경제 문맹 탈출 클럽</span></a>
+        <p class="footer-brand-desc">1인 경제 에디터의 독립 미디어 플랫폼.</p>
+        <div class="footer-socials"><a href="#" class="social-btn">𝕏</a><a href="#" class="social-btn">📸</a><a href="#" class="social-btn">▶</a><a href="#" class="social-btn">✍</a></div>
+      </div>
+      <div class="footer-col"><h4>콘텐츠</h4><div class="footer-links"><a href="../blog/index.html">전체 아티클</a><a href="#">거시경제</a><a href="#">투자·자산</a></div></div>
+      <div class="footer-col"><h4>커뮤니티</h4><div class="footer-links"><a href="../events/index.html">다가오는 모임</a><a href="#">독서 클럽</a><a href="#">강연·특강</a></div></div>
+      <div class="footer-col"><h4>더보기</h4><div class="footer-links"><a href="index.html">금융 앱</a><a href="../about/index.html">에디터 소개</a></div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 경제 문맹 탈출 클럽. All rights reserved.</span><span>Made with ☕ and Claude Code</span></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+// --- FIRE Calculator ---
+function calcFire() {
+  const monthly = parseFloat(document.getElementById('fire-monthly').value) || 0;
+  const current = parseFloat(document.getElementById('fire-current').value) || 0;
+  const save = parseFloat(document.getElementById('fire-save').value) || 0;
+  const rate = parseFloat(document.getElementById('fire-rate').value) / 100 / 12;
+
+  const annualExpense = monthly * 12;
+  const target = annualExpense * 25;
+  const el = document.getElementById('fire-result');
+  const targetEl = document.getElementById('fire-target');
+  const yearsEl = document.getElementById('fire-years');
+
+  targetEl.textContent = Math.round(target).toLocaleString() + '만원';
+
+  if (save > 0 && rate > 0) {
+    let asset = current;
+    let months = 0;
+    while (asset < target && months < 600) {
+      asset = asset * (1 + rate) + save;
+      months++;
+    }
+    if (months < 600) {
+      const years = Math.floor(months / 12);
+      const m = months % 12;
+      yearsEl.textContent = `약 ${years}년 ${m > 0 ? m + '개월' : ''} 후 달성 가능`;
+    } else {
+      yearsEl.textContent = '현재 저축·수익률로는 50년 이상 소요됩니다';
+    }
+  } else {
+    const needed = target - current;
+    yearsEl.textContent = `현재 자산에서 ${Math.round(needed).toLocaleString()}만원 더 필요`;
+  }
+
+  el.style.display = 'block';
+}
+
+// --- Compound Calculator ---
+function calcCompound() {
+  const principal = parseFloat(document.getElementById('comp-principal').value) || 0;
+  const monthly = parseFloat(document.getElementById('comp-monthly').value) || 0;
+  const rate = parseFloat(document.getElementById('comp-rate').value) / 100 / 12;
+  const years = parseFloat(document.getElementById('comp-years').value) || 0;
+  const months = years * 12;
+
+  let value = principal;
+  for (let i = 0; i < months; i++) {
+    value = value * (1 + rate) + monthly;
+  }
+  const totalInvested = principal + monthly * months;
+  const profit = value - totalInvested;
+
+  document.getElementById('comp-final').textContent = Math.round(value).toLocaleString() + '만원';
+  document.getElementById('comp-profit').textContent =
+    `투자 원금 ${Math.round(totalInvested).toLocaleString()}만원 · 수익 ${Math.round(profit).toLocaleString()}만원`;
+  document.getElementById('comp-result').style.display = 'block';
+}
+
+// --- Income Calculator ---
+function calcIncome() {
+  const annual = parseFloat(document.getElementById('inc-annual').value) || 0;
+  const family = parseInt(document.getElementById('inc-family').value) || 1;
+  const children = parseInt(document.getElementById('inc-children').value) || 0;
+
+  const monthly = annual / 12;
+  // Simplified 2026 KR deductions (approximate)
+  const nationalPension = Math.min(monthly * 0.045, 26.55); // 4.5%, cap ~26.55만
+  const healthInsurance = monthly * 0.03545;
+  const longTermCare = healthInsurance * 0.1295;
+  const employmentInsurance = monthly * 0.009;
+  const totalInsurance = nationalPension + healthInsurance + longTermCare + employmentInsurance;
+
+  // Simplified income tax (근로소득세 간이세액표 근사)
+  let taxBase = monthly - totalInsurance;
+  let incomeTax = 0;
+  const annualTaxBase = taxBase * 12;
+  if (annualTaxBase <= 1400) incomeTax = 0;
+  else if (annualTaxBase <= 5000) incomeTax = (annualTaxBase - 1400) * 0.06 / 12;
+  else if (annualTaxBase <= 8800) incomeTax = (216 + (annualTaxBase - 5000) * 0.15) / 12;
+  else if (annualTaxBase <= 15000) incomeTax = (786 + (annualTaxBase - 8800) * 0.24) / 12;
+  else incomeTax = (2274 + (annualTaxBase - 15000) * 0.35) / 12;
+
+  // Family deduction (근사)
+  const familyDeduct = (family - 1) * 1.5 + children * 1;
+  incomeTax = Math.max(0, incomeTax - familyDeduct);
+
+  const localTax = incomeTax * 0.1;
+  const totalDeduct = totalInsurance + incomeTax + localTax;
+  const takeHome = monthly - totalDeduct;
+
+  document.getElementById('inc-monthly').textContent = Math.round(takeHome).toLocaleString() + '만원';
+  document.getElementById('inc-yearly').textContent = Math.round(takeHome * 12).toLocaleString() + '만원';
+  document.getElementById('inc-breakdown').innerHTML =
+    `국민연금 <b>${nationalPension.toFixed(1)}만</b> · 건강보험 <b>${healthInsurance.toFixed(1)}만</b> · 장기요양 <b>${longTermCare.toFixed(1)}만</b> · 고용보험 <b>${employmentInsurance.toFixed(1)}만</b><br>
+     소득세 <b>${incomeTax.toFixed(1)}만</b> · 지방소득세 <b>${localTax.toFixed(1)}만</b> · 총 공제 <b>${totalDeduct.toFixed(1)}만원</b>`;
+  document.getElementById('inc-result').style.display = 'block';
+}
+
+// --- Dictionary ---
+const terms = [
+  { term: '피벗 (Pivot)', def: '중앙은행이 통화정책 방향을 전환하는 것. 금리 인상 기조에서 인하 기조로, 또는 그 반대. 연준의 피벗은 전 세계 자산시장에 큰 영향을 준다.', tag: '통화정책' },
+  { term: '스태그플레이션 (Stagflation)', def: '경기 침체(stagnation)와 물가 상승(inflation)이 동시에 나타나는 최악의 경제 상황. 1970년대 오일쇼크 때 처음 주목받았다.', tag: '거시경제' },
+  { term: 'PCE (개인소비지출 물가지수)', def: '미국 연준이 공식 인플레이션 지표로 사용하는 물가 지수. CPI보다 소비자 행동 변화를 더 잘 반영한다는 평가를 받는다.', tag: '지표' },
+  { term: '양적완화 (QE)', def: '중앙은행이 국채 등 자산을 직접 매입해 시중에 돈을 공급하는 비전통적 통화정책. 금리가 이미 0에 가까울 때 사용한다.', tag: '통화정책' },
+  { term: '기준금리', def: '중앙은행이 결정하는 정책 금리. 시중 금리 전반에 영향을 미치며, 경기 과열 시 인상, 경기 침체 시 인하한다.', tag: '통화정책' },
+  { term: '리세션 (Recession)', def: '경기침체. 공식 정의는 NBER 기준으로 경제 활동이 수개월 이상 현저히 감소한 상태. 일반적으로 "2분기 연속 GDP 감소"로 통용되지만 이는 정확한 정의가 아니다.', tag: '거시경제' },
+  { term: 'ETF (상장지수펀드)', def: '주식처럼 거래소에서 매매할 수 있는 펀드. 특정 지수나 자산군을 추종하며, 낮은 수수료와 분산투자 효과로 인기가 높다.', tag: '투자' },
+  { term: '4% 룰', def: '트리니티 연구에서 제시한 안전 인출률. 은퇴 자산의 4%씩 인출하면 30년 이상 자산이 고갈되지 않는다는 법칙. FIRE 운동의 핵심 개념.', tag: '파이어족' },
+  { term: 'FIRE (Financial Independence, Retire Early)', def: '경제적 자립을 이루고 조기 은퇴를 목표로 하는 운동. Fat FIRE(높은 생활수준), Lean FIRE(절약형), Barista FIRE(부분은퇴) 등 변형이 있다.', tag: '파이어족' },
+  { term: '디커플링 (Decoupling)', def: '원래 함께 움직이던 두 경제 지표나 시장이 분리되어 각자 다른 방향으로 움직이는 현상. 최근에는 미중 공급망 분리를 의미하는 용어로 자주 쓰인다.', tag: '글로벌' },
+  { term: '환율', def: '한 나라 통화와 다른 나라 통화의 교환 비율. 원/달러 환율이 오른다는 것은 달러 대비 원화 가치가 하락한다는 의미다.', tag: '기초' },
+  { term: 'GDP (국내총생산)', def: '일정 기간 한 나라 안에서 생산된 모든 재화와 서비스의 시장 가치 합계. 경제 규모를 나타내는 가장 대표적인 지표.', tag: '지표' },
+  { term: '인플레이션', def: '물가 전반이 지속적으로 상승하는 현상. 화폐의 실질 구매력이 떨어진다. 중앙은행의 목표 인플레이션은 보통 2%.', tag: '기초' },
+  { term: '복리 (Compound Interest)', def: '원금에 붙은 이자가 다음 기간의 원금에 포함되어 다시 이자를 낳는 구조. 시간이 길수록 단리와의 차이가 기하급수적으로 커진다.', tag: '기초' },
+  { term: '포트폴리오', def: '투자자가 보유한 자산들의 집합. 분산투자를 통해 리스크를 줄이는 것이 포트폴리오 관리의 핵심이다.', tag: '투자' },
+  { term: '국민연금', def: '국가가 운영하는 공적 연금 제도. 근로자는 월급의 4.5%를 납부하고 사용자도 4.5%를 부담한다. 노후 소득 보장의 기반.', tag: '사회보험' },
+  { term: '가계부채', def: '가계가 금융기관에서 빌린 돈의 총합. 주택담보대출, 신용대출 등이 포함된다. 한국의 가계부채 비율은 GDP 대비 세계 최고 수준이다.', tag: '거시경제' },
+  { term: '달러 인덱스 (DXY)', def: '6개 주요 통화(유로, 엔, 파운드 등) 대비 달러의 가치를 나타내는 지수. 달러 강세 시 신흥국 통화와 원자재 가격에 압력이 된다.', tag: '글로벌' },
+  { term: '수익률 곡선 (Yield Curve)', def: '만기별 채권 금리를 연결한 곡선. 단기금리가 장기금리보다 높아지는 "역전" 상태는 역사적으로 경기침체의 선행 지표로 여겨진다.', tag: '투자' },
+  { term: '빅맥 지수', def: '이코노미스트가 고안한 구매력 평가 지수. 맥도날드 빅맥 가격을 기준으로 각국 통화의 고평가·저평가를 파악한다.', tag: '기초' },
+];
+
+function renderDict(list) {
+  const el = document.getElementById('dict-list');
+  if (!list.length) {
+    el.innerHTML = '<div style="padding:20px; text-align:center; color:var(--muted); font-size:0.875rem;">검색 결과가 없습니다.</div>';
+    return;
+  }
+  el.innerHTML = list.map(t => `
+    <div class="dict-item">
+      <div class="dict-term">${t.term} <span class="dict-tag">${t.tag}</span></div>
+      <div class="dict-def">${t.def}</div>
+    </div>
+  `).join('');
+}
+
+function searchDict() {
+  const q = document.getElementById('dict-input').value.toLowerCase();
+  const filtered = terms.filter(t =>
+    t.term.toLowerCase().includes(q) || t.def.toLowerCase().includes(q) || t.tag.toLowerCase().includes(q)
+  );
+  renderDict(filtered);
+}
+
+// Initial render
+renderDict(terms);
+
+// Filter btn active state for hash links
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

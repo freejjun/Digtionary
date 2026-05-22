@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>경제 문맹 탈출 클럽 레터 — 매주 월요일 경제 뉴스레터</title>
+  <meta name="description" content="1인 경제 에디터 준의 주간 뉴스레터. 매주 월요일, 지난 한 주의 핵심 경제 이슈를 에디터의 시각으로 정리해 보내드립니다." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    /* Newsletter-specific overrides */
+    body { background: #FFFFFF; }
+
+    .nl-hero {
+      padding: 80px 0 64px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .nl-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FEF9ED;
+      border: 1px solid #F5C842;
+      color: var(--gold);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .nl-hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      line-height: 1.2;
+      margin-bottom: 20px;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .nl-hero p {
+      font-size: 1.125rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 36px;
+      line-height: 1.8;
+    }
+
+    .nl-form-wrap {
+      max-width: 460px;
+      margin: 0 auto;
+    }
+
+    .nl-form {
+      display: flex;
+      gap: 8px;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: 50px;
+      padding: 6px 6px 6px 20px;
+      transition: border-color 0.2s;
+    }
+
+    .nl-form:focus-within {
+      border-color: var(--accent);
+    }
+
+    .nl-input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 0.9375rem;
+      font-family: var(--font-sans);
+      background: transparent;
+      color: var(--text);
+      min-width: 0;
+    }
+
+    .nl-input::placeholder { color: var(--text-light); }
+
+    .nl-submit {
+      padding: 10px 22px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 40px;
+      font-size: 0.875rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .nl-submit:hover { background: var(--accent-light); }
+
+    .nl-trust {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    .nl-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nl-success {
+      display: none;
+      background: #D1FAE5;
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      text-align: center;
+      margin-top: 16px;
+    }
+
+    .nl-success.show { display: block; }
+
+    /* Issue preview */
+    .issue-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    .issue-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .issue-header {
+      background: var(--accent);
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .issue-no {
+      font-size: 0.7rem;
+      opacity: 0.7;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .issue-date {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .issue-body { padding: 20px; }
+
+    .issue-title {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .issue-excerpt {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .issue-topics {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    /* What's inside section */
+    .inside-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .inside-item {
+      background: var(--surface);
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    .inside-icon { font-size: 2rem; margin-bottom: 10px; }
+    .inside-title { font-size: 0.9rem; font-weight: 700; margin-bottom: 6px; }
+    .inside-desc { font-size: 0.8rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Testimonials */
+    .testimonial {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+
+    .testimonial-text {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .testimonial-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+
+    .testimonial-name { font-size: 0.875rem; font-weight: 700; }
+    .testimonial-role { font-size: 0.75rem; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      .inside-grid { grid-template-columns: 1fr 1fr; }
+      .nl-form { flex-direction: column; border-radius: var(--radius-lg); padding: 16px; }
+      .nl-submit { width: 100%; padding: 14px; border-radius: var(--radius); }
+    }
+
+    @media (max-width: 480px) {
+      .inside-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="../index.html" class="logo">
+      <span class="logo-main">경제문맹탈출<span>클럽</span></span>
+      <span class="logo-sub">경제 문맹 탈출 클럽</span>
+    </a>
+    <nav class="main-nav">
+      <a href="../index.html" class="nav-link">홈</a>
+      <a href="../blog/index.html" class="nav-link">아티클</a>
+      <a href="../events/index.html" class="nav-link">모임</a>
+      <a href="../apps/index.html" class="nav-link">앱</a>
+      <a href="../about/index.html" class="nav-link">소개</a>
+      <a href="index.html" class="nav-link nav-cta active" style="background:var(--gold); border-color:var(--gold);">레터 구독</a>
+    </nav>
+    <button class="hamburger" aria-label="메뉴" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+</header>
+<nav class="mobile-nav">
+  <a href="../index.html" class="nav-link">홈</a>
+  <a href="../blog/index.html" class="nav-link">아티클</a>
+  <a href="../events/index.html" class="nav-link">모임</a>
+  <a href="../apps/index.html" class="nav-link">앱</a>
+  <a href="../about/index.html" class="nav-link">소개</a>
+  <a href="index.html" class="nav-link" style="text-align:center; margin-top:8px;">레터 구독</a>
+</nav>
+
+<!-- Hero -->
+<section class="nl-hero">
+  <div class="container">
+    <div class="nl-badge">✉ 무료 뉴스레터</div>
+    <h1>매주 월요일,<br>경제를 <em>읽는</em> 시간</h1>
+    <p>광고 없이, 에디터 준의 시각으로만 채운 주간 경제 레터.<br>지난 한 주의 핵심 이슈와 다음 주를 읽는 힌트를 보내드립니다.</p>
+
+    <div class="nl-form-wrap">
+      <a href="#" class="btn btn-gold btn-lg stibee-subscribe-btn" style="display:inline-flex; font-size:1rem; padding:16px 36px; border-radius:50px;">
+        ✉ 스티비에서 무료 구독하기
+      </a>
+      <div class="nl-trust">
+        <span class="nl-trust-item">✓ 스팸 없음</span>
+        <span class="nl-trust-item">✓ 언제든 구독 취소</span>
+        <span class="nl-trust-item">✓ 주 1회 발송</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div style="display:flex; justify-content:center; gap:48px; margin-top:52px; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-serif); font-size:2rem; font-weight:700; color:var(--accent);">1,240+</div>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">구독자</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-serif); font-size:2rem; font-weight:700; color:var(--accent);">72%</div>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">평균 오픈율</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="font-family:var(--font-serif); font-size:2rem; font-weight:700; color:var(--accent);">56호</div>
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">발행 호수</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What's inside -->
+<section class="section" style="background:var(--surface); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:40px;">
+      <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;">Every Monday</p>
+      <h2 style="font-size:1.7rem; margin-bottom:10px;">레터에는 이런 내용이 담깁니다</h2>
+      <p style="color:var(--text-muted); max-width:440px; margin:0 auto; font-size:0.9375rem;">매주 월요일 오전 7시, 커피 한 잔과 함께 읽기 딱 좋은 분량으로 보내드립니다.</p>
+    </div>
+    <div class="inside-grid">
+      <div class="inside-item">
+        <div class="inside-icon">📌</div>
+        <div class="inside-title">이주의 경제 이슈</div>
+        <div class="inside-desc">지난 한 주에서 가장 중요했던 경제 뉴스 3가지를 에디터 준의 해석과 함께</div>
+      </div>
+      <div class="inside-item">
+        <div class="inside-icon">🔭</div>
+        <div class="inside-title">다음 주 주목할 것</div>
+        <div class="inside-desc">다음 주 발표될 경제 지표와 이벤트 미리 보기. 무엇을 관심 있게 봐야 할지</div>
+      </div>
+      <div class="inside-item">
+        <div class="inside-icon">📖</div>
+        <div class="inside-title">에디터의 한 줄</div>
+        <div class="inside-desc">그 주에 읽은 책, 기사, 데이터 중 가장 인상 깊었던 것. 짧지만 깊게</div>
+      </div>
+      <div class="inside-item">
+        <div class="inside-icon">🗓</div>
+        <div class="inside-title">모임 & 업데이트</div>
+        <div class="inside-desc">다가오는 독서 모임, 강연 일정과 에디터 준 새 아티클·앱 소식</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Past issues -->
+<section class="section" style="background:var(--bg); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div style="display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:32px; padding-bottom:16px; border-bottom:2px solid var(--text);">
+      <div>
+        <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:6px;">Past Issues</p>
+        <h2 style="font-size:1.4rem; margin:0;">지난 레터 맛보기</h2>
+      </div>
+      <span style="font-size:0.875rem; color:var(--text-muted);">총 56호 발행</span>
+    </div>
+
+    <div class="grid-3">
+      <div class="issue-card">
+        <div class="issue-header">
+          <span class="issue-no">Vol. 56</span>
+          <span class="issue-date">2026. 5. 5</span>
+        </div>
+        <div class="issue-body">
+          <div class="issue-title">연준 침묵, 한국은행 고민, 그리고 환율 1,380원의 의미</div>
+          <div class="issue-excerpt">5월 첫째 주는 유난히 조용했습니다. 하지만 이 침묵 속에 중요한 신호들이 있었습니다. 연준이 말을 아낀 이유, 한국은행이 움직이지 못하는 구조, 그리고 환율이 보내는 경고를 읽어봤습니다.</div>
+          <div class="issue-topics">
+            <span class="app-tag">연준</span>
+            <span class="app-tag">한국은행</span>
+            <span class="app-tag">환율</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header" style="background:var(--gold);">
+          <span class="issue-no">Vol. 55</span>
+          <span class="issue-date">2026. 4. 28</span>
+        </div>
+        <div class="issue-body">
+          <div class="issue-title">1분기 GDP 발표 — 숫자 뒤에 있는 진짜 이야기</div>
+          <div class="issue-excerpt">1분기 GDP가 예상을 소폭 상회했습니다. 미디어는 '서프라이즈'라고 썼지만, 저는 그렇게 읽지 않았습니다. 성장의 질을 들여다보면 다른 그림이 보입니다.</div>
+          <div class="issue-topics">
+            <span class="app-tag">GDP</span>
+            <span class="app-tag">경기분석</span>
+            <span class="app-tag">소비</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="issue-card">
+        <div class="issue-header" style="background:#5B21B6;">
+          <span class="issue-no">Vol. 54</span>
+          <span class="issue-date">2026. 4. 21</span>
+        </div>
+        <div class="issue-body">
+          <div class="issue-title">반도체 사이클, 지금 어디에 있나</div>
+          <div class="issue-excerpt">삼성·하이닉스 실적 발표 후 시장 반응이 엇갈렸습니다. HBM 수요는 폭발적인데 범용 D램은 여전히 과잉 공급. 반도체 업황을 사이클 관점에서 다시 점검했습니다.</div>
+          <div class="issue-topics">
+            <span class="app-tag">반도체</span>
+            <span class="app-tag">HBM</span>
+            <span class="app-tag">삼성</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="section" style="background:var(--surface); border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div style="text-align:center; margin-bottom:40px;">
+      <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold); margin-bottom:8px;">Reader Reviews</p>
+      <h2 style="font-size:1.7rem;">독자들의 이야기</h2>
+    </div>
+    <div class="grid-3">
+      <div class="testimonial">
+        <p class="testimonial-text">"경제 뉴스를 매일 읽어도 이해가 안 됐는데, 에디터 준 레터 하나로 한 주를 정리하게 됐어요. 맥락을 잡아주는 방식이 특히 좋습니다."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:var(--accent);">김</div>
+          <div>
+            <div class="testimonial-name">김○○</div>
+            <div class="testimonial-role">IT 스타트업 PM · 구독 8개월</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">"경제 기자 출신답게 무엇이 중요하고 무엇이 노이즈인지를 정확히 짚어줍니다. 주간 뉴스레터 중에서 가장 먼저 열게 되는 레터예요."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:var(--gold);">박</div>
+          <div>
+            <div class="testimonial-name">박○○</div>
+            <div class="testimonial-role">자영업 / 개인 투자자 · 구독 1년 3개월</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <p class="testimonial-text">"독서 모임에서 만났다가 레터까지 구독하게 됐어요. 글이 광고나 후원 없이 독립적으로 유지된다는 점이 신뢰가 갑니다."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:#059669;">이</div>
+          <div>
+            <div class="testimonial-name">이○○</div>
+            <div class="testimonial-role">대학원생 (경제학) · 구독 5개월</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom CTA -->
+<section style="padding:80px 0; background:var(--accent);">
+  <div class="container">
+    <div style="max-width:540px; margin:0 auto; text-align:center; color:white;">
+      <p style="font-size:0.7rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--gold-light); margin-bottom:12px;">무료 구독</p>
+      <h2 style="font-size:clamp(1.6rem,3vw,2.2rem); color:white; margin-bottom:14px;">지금 구독하고 다음 월요일에 받아보세요</h2>
+      <p style="opacity:0.8; margin-bottom:32px; line-height:1.7;">1,240명이 읽는 에디터 준 레터.<br>언제든 구독 취소할 수 있습니다.</p>
+      <a href="#" class="btn stibee-subscribe-btn" style="display:inline-flex; background:var(--gold); color:white; border:none; font-size:1rem; padding:16px 36px; border-radius:50px; font-weight:700;">
+        ✉ 구독하기
+      </a>
+      <p style="font-size:0.75rem; opacity:0.45; margin-top:16px;">스팸 없음 · 광고 없음 · 주 1회 발송</p>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="../index.html" class="logo"><span class="logo-main">탈출<span style="color:var(--gold);">클럽</span></span><span class="logo-sub" style="color:rgba(255,255,255,0.4);">경제 문맹 탈출 클럽</span></a>
+        <p class="footer-brand-desc">1인 경제 에디터의 독립 미디어 플랫폼.<br>깊이 있는 경제 분석과 살아있는 커뮤니티를 만들어갑니다.</p>
+        <div class="footer-socials"><a href="#" class="social-btn">𝕏</a><a href="#" class="social-btn">📸</a><a href="#" class="social-btn">▶</a><a href="#" class="social-btn">✍</a></div>
+      </div>
+      <div class="footer-col"><h4>콘텐츠</h4><div class="footer-links"><a href="../blog/index.html">전체 아티클</a><a href="#">거시경제</a><a href="#">투자·자산</a><a href="#">파이어족</a></div></div>
+      <div class="footer-col"><h4>커뮤니티</h4><div class="footer-links"><a href="../events/index.html">다가오는 모임</a><a href="#">독서 클럽</a><a href="#">강연·특강</a></div></div>
+      <div class="footer-col"><h4>더보기</h4><div class="footer-links"><a href="../apps/index.html">금융 앱</a><a href="../about/index.html">에디터 소개</a><a href="index.html">레터 구독</a></div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 경제 문맹 탈출 클럽. All rights reserved.</span><span>Made with ☕ and Claude Code</span></div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+<script>
+function handleNlSubmit(formId, emailId, successId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const email = document.getElementById(emailId).value;
+    if (!email || !email.includes('@')) return;
+    form.style.display = 'none';
+    const s = document.getElementById(successId);
+    s.classList.add('show');
+    s.style.display = 'block';
+  });
+}
+handleNlSubmit('hero-nl-form', 'hero-email', 'hero-success');
+
+document.getElementById('bottom-nl-form').addEventListener('submit', e => {
+  e.preventDefault();
+  e.target.style.display = 'none';
+  document.getElementById('bottom-success').style.display = 'block';
+});
+</script>
+</body>
+</html>
