@@ -14,8 +14,8 @@
   --muted:     #9CA3AF;
   --accent:    #0D9488;
   --accent2:   #0F766E;
-  --gold:      #E11D48;
-  --gold-bg:   #FFF1F2;
+  --gold:      #D97706;
+  --gold-bg:   #FEF3C7;
   --border:    #E5E5E4;
   --border-lt: #F5F5F4;
   --green:     #059669;
@@ -383,28 +383,28 @@ h3 { font-size: clamp(1.1rem, 2vw, 1.4rem); font-weight: 700; }
 /* =============================================
    NEWSLETTER SECTION
    ============================================= */
-.nl-section { background: var(--accent); padding: 64px 0; }
-.nl-inner { max-width: 580px; margin: 0 auto; text-align: center; color: #fff; }
-.nl-eyebrow { font-size: .67rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #FCD34D; margin-bottom: 10px; }
-.nl-title { font-family: var(--sans); font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 800; color: #fff; margin-bottom: 10px; }
-.nl-desc { font-size: 1rem; opacity: .8; margin-bottom: 28px; line-height: 1.7; }
+.nl-section { background: #F0FDFA; padding: 64px 0; border-top: 1px solid #CCFBF1; border-bottom: 1px solid #CCFBF1; }
+.nl-inner { max-width: 580px; margin: 0 auto; text-align: center; color: var(--text); }
+.nl-eyebrow { font-size: .67rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.nl-title { font-family: var(--sans); font-size: clamp(1.6rem, 3vw, 2.1rem); font-weight: 800; color: var(--text); margin-bottom: 10px; }
+.nl-desc { font-size: 1rem; color: var(--sub); margin-bottom: 28px; line-height: 1.7; }
 
 /* =============================================
    FOOTER
    ============================================= */
-.site-footer { background: #18181B; color: rgba(255,255,255,.7); padding: 56px 0 28px; }
+.site-footer { background: var(--surface); color: var(--sub); padding: 56px 0 28px; border-top: 1px solid var(--border); }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 48px; }
-.footer-brand .logo-main { color: #fff; }
-.footer-brand .logo-sub  { color: rgba(255,255,255,.3); }
-.footer-desc { font-size: .85rem; line-height: 1.75; opacity: .6; margin: 12px 0 18px; }
+.footer-brand .logo-main { color: var(--text); }
+.footer-brand .logo-sub  { color: var(--muted); }
+.footer-desc { font-size: .85rem; line-height: 1.75; color: var(--sub); margin: 12px 0 18px; }
 .footer-socials { display: flex; gap: 7px; }
-.social-btn { width: 34px; height: 34px; border-radius: 8px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; font-size: .85rem; transition: all .2s; }
-.social-btn:hover { background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
-.footer-col h5 { font-size: .67rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.35); margin-bottom: 14px; font-family: var(--sans); }
+.social-btn { width: 34px; height: 34px; border-radius: 8px; background: #fff; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: .85rem; transition: all .2s; }
+.social-btn:hover { background: var(--gold); border-color: var(--gold); color: #fff; transform: translateY(-2px); }
+.footer-col h4, .footer-col h5 { font-size: .67rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; font-family: var(--sans); }
 .footer-links { display: flex; flex-direction: column; gap: 9px; }
-.footer-links a { font-size: .85rem; opacity: .6; transition: opacity .15s; }
-.footer-links a:hover { opacity: 1; color: #fff; }
-.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.08); font-size: .78rem; opacity: .4; }
+.footer-links a { font-size: .85rem; color: var(--sub); transition: color .15s; }
+.footer-links a:hover { color: var(--accent); }
+.footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-top: 22px; border-top: 1px solid var(--border); font-size: .78rem; color: var(--muted); }
 
 /* =============================================
    PAGE HERO (inner pages)

@@ -121,10 +121,10 @@
           주 2–3회 아티클을 발행하고, 매주 월요일 뉴스레터를 보냅니다.
         </p>
       </div>
-      <div style="padding:32px 24px; border:1px solid var(--border); border-radius:var(--radius-lg); text-align:center; background:var(--accent); color:white;">
+      <div style="padding:32px 24px; border:2px solid var(--accent); border-radius:var(--radius-lg); text-align:center; background:#F0FDFA;">
         <div style="font-size:2.8rem; margin-bottom:16px;">🤝</div>
-        <h3 style="font-size:1.1rem; margin-bottom:10px; color:white;">모이기</h3>
-        <p style="font-size:0.875rem; opacity:0.85; line-height:1.8;">
+        <h3 style="font-size:1.1rem; margin-bottom:10px; color:var(--accent);">모이기</h3>
+        <p style="font-size:0.875rem; color:var(--sub); line-height:1.8;">
           독서 모임, 강연, 워크숍을 직접 기획·진행합니다.
           함께 읽고 이야기하는 오프라인 커뮤니티를 운영합니다.
         </p>
@@ -232,11 +232,11 @@
       <div>
         <form id="contact-form" style="display:flex; flex-direction:column; gap:14px;">
           <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label">이름 <span class="form-required">*</span></label>
+            <label class="form-label">이름 <span class="form-req">*</span></label>
             <input type="text" class="form-input" placeholder="홍길동" required />
           </div>
           <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label">이메일 <span class="form-required">*</span></label>
+            <label class="form-label">이메일 <span class="form-req">*</span></label>
             <input type="email" class="form-input" placeholder="hello@example.com" required />
           </div>
           <div class="form-group" style="margin-bottom:0;">
@@ -249,7 +249,7 @@
             </select>
           </div>
           <div class="form-group" style="margin-bottom:0;">
-            <label class="form-label">내용 <span class="form-required">*</span></label>
+            <label class="form-label">내용 <span class="form-req">*</span></label>
             <textarea class="form-input form-textarea" style="min-height:120px;" placeholder="문의 내용을 자유롭게 작성해주세요." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary" onclick="this.closest('form').style.display='none'; document.getElementById('contact-success').style.display='block'; return false;">
